@@ -1,5 +1,11 @@
 # ColdCraft — AI Cold Email Generator
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Made with Vanilla JS](https://img.shields.io/badge/Vanilla_JS-F7DF1E?logo=javascript&logoColor=black)](#)
+[![LLM: Llama 3.1 70B](https://img.shields.io/badge/LLM-Llama_3.1_70B-76B900?logo=nvidia&logoColor=white)](https://build.nvidia.com)
+
 ColdCraft is an AI-powered SaaS dashboard built for software developers to generate highly personalized, under-100-word cold emails to hiring managers. It strictly follows best practices for engineering outreach: no fluff, confident tone, and direct highlights of technical contributions.
 
 ![Dashboard Preview](./screenshot.png)
