@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ColdCraft — AI Cold Email Generator</title>
+  <meta name="description" content="Generate highly personalized, under-100-word cold emails to hiring managers using AI. Built for software developers." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar-logo">
+      <div class="logo-icon">✉</div>
+      <div class="logo-text">
+        ColdCraft
+        <span>AI Email Generator</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu</div>
+
+      <button class="nav-item active" id="nav-dashboard" data-page="dashboard" aria-current="page">
+        <span class="nav-icon">⊞</span>
+        Dashboard
+      </button>
+
+      <button class="nav-item" id="nav-generator" data-page="generator">
+        <span class="nav-icon">✦</span>
+        Generator
+      </button>
+
+      <button class="nav-item" id="nav-history" data-page="history">
+        <span class="nav-icon">◷</span>
+        History
+        <span class="nav-badge" id="sidebar-history-count">0</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="theme-toggle-sidebar" aria-label="Toggle theme">
+        <span class="nav-icon" id="theme-icon-sidebar">☀</span>
+        <span id="theme-label-sidebar">Light Mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <div class="main">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <h1 class="topbar-title" id="topbar-title">Dashboard</h1>
+      <div class="topbar-actions">
+        <button class="btn-sm" id="theme-toggle-top" aria-label="Toggle theme" style="display:none;">
+          <span id="theme-icon-top">☀</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+         PAGE: Dashboard
+    ═══════════════════════════════════════ -->
+    <main class="page active" id="page-dashboard" role="main">
+
+      <div class="page-header">
+        <div class="page-header-title">Welcome back 👋</div>
+        <div class="page-header-sub">Here's your cold outreach overview at a glance.</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Emails Generated</div>
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-sub">all time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">This Week</div>
+          <div class="stat-value" id="stat-week">0</div>
+          <div class="stat-sub">last 7 days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Companies Targeted</div>
+          <div class="stat-value" id="stat-companies">0</div>
+          <div class="stat-sub">unique</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg. Word Count</div>
+          <div class="stat-value" id="stat-words">—</div>
+          <div class="stat-sub">target: &lt;100</div>
+        </div>
+      </div>
+
+      <!-- Quick start -->
+      <div class="section-header">
+        <div class="section-title">Quick Start</div>
+      </div>
+
+      <div class="quick-grid">
+        <div class="quick-card" id="qc-generate" role="button" tabindex="0" aria-label="Go to Generator">
+          <div class="quick-card-icon">✦</div>
+          <div class="quick-card-body">
+            <div class="quick-card-title">Generate a Cold Email</div>
+            <div class="quick-card-desc">Fill in your target role, manager name, and one personalization detail. AI does the rest.</div>
+          </div>
+        </div>
+
+        <div class="quick-card" id="qc-history" role="button" tabindex="0" aria-label="View History">
+          <div class="quick-card-icon">◷</div>
+          <div class="quick-card-body">
+            <div class="quick-card-title">Review Past Emails</div>
+            <div class="quick-card-desc">Browse all emails you've generated, re-read them, or copy directly from history.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="section-header">
+        <div class="section-title">The Formula for a Great Cold Email</div>
+      </div>
+
+      <div class="tips-banner">
+        <div class="tips-banner-icon">💡</div>
+        <div>
+          <div class="tips-banner-title">What makes this prompt different</div>
+          <ul class="tips-banner-list">
+            <li>Strictly under 100 words — engineers are busy, brevity wins</li>
+            <li>Opens with personalization, never "Hope this finds you well"</li>
+            <li>Highlights what you built, not vague buzzwords</li>
+            <li>Ends with a low-friction CTA — a chat, not a job offer</li>
+            <li>Bans words like "synergy," "passionate," "innovative," and "delve"</li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════
+         PAGE: Generator
+    ═══════════════════════════════════════ -->
+    <main class="page" id="page-generator" role="main" aria-label="Email Generator">
+
+      <div class="page-header">
+        <div class="page-header-title">Email Generator</div>
+        <div class="page-header-sub">Fill in the fields and let AI craft your cold email.</div>
+      </div>
+
+      <div class="generator-layout">
+
+        <!-- Left: Form -->
+        <div class="card">
+          <div class="card-title">
+            <span class="card-title-icon">📋</span>
+            Email Details
+          </div>
+
+          <form id="email-form" novalidate>
+            <div class="form-grid">
+
+              <!-- Applicant Name -->
+              <div class="form-group">
+                <label for="applicantName">Your Name <span class="required-star">*</span></label>
+                <input type="text" id="applicantName" placeholder="e.g. Alex Chen" autocomplete="name" />
+                <div class="field-error" id="err-applicantName"></div>
+              </div>
+
+              <!-- Target Role -->
+              <div class="form-group">
+                <label for="targetRole">Target Role <span class="required-star">*</span></label>
+                <input type="text" id="targetRole" placeholder="e.g. Senior Backend Engineer" />
+                <div class="field-error" id="err-targetRole"></div>
+              </div>
+
+              <!-- Hiring Manager -->
+              <div class="form-group">
+                <label for="managerName">Hiring Manager Name <span class="required-star">*</span></label>
+                <input type="text" id="managerName" placeholder="e.g. Sarah Kim" />
+                <div class="field-error" id="err-managerName"></div>
+              </div>
+
+              <!-- Target Company -->
+              <div class="form-group">
+                <label for="targetCompany">Target Company <span class="required-star">*</span></label>
+                <input type="text" id="targetCompany" placeholder="e.g. Stripe" />
+                <div class="field-error" id="err-targetCompany"></div>
+              </div>
+
+              <!-- Contribution / Repo URL -->
+              <div class="form-group full-width">
+                <label for="personalization">Contribution / Key Repo URL <span class="required-star">*</span></label>
+                <textarea id="personalization" rows="3"
+                  placeholder="e.g. https://github.com/kubernetes/kubernetes/pull/1234 or briefly explain a specific deep technical challenge you solved."></textarea>
+                <div class="char-counter"><span id="char-personalization">0</span>/300</div>
+                <div class="field-error" id="err-personalization"></div>
+              </div>
+
+              <!-- GitHub Account -->
+              <div class="form-group full-width">
+                <label for="githubUsername">GitHub Username <span class="required-star">*</span></label>
+                <input type="text" id="githubUsername" placeholder="e.g. torvalds" />
+                <div class="field-error" id="err-githubUsername"></div>
+              </div>
+
+            </div>
+
+            <button type="submit" class="btn-generate" id="btn-generate">
+              <span id="btn-generate-icon">✦</span>
+              <span id="btn-generate-text">Generate Email</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Output Panel -->
+        <div class="output-panel">
+          <div class="card" style="min-height: 400px; display: flex; flex-direction: column;">
+
+            <div class="card-title">
+              <span class="card-title-icon">📨</span>
+              Generated Email
+            </div>
+
+            <!-- Placeholder -->
+            <div class="output-placeholder" id="output-placeholder">
+              <div class="placeholder-icon">✉</div>
+              <div class="placeholder-text">Fill in the form and click <strong>Generate Email</strong> to craft your cold email.</div>
+            </div>
+
+            <!-- Loading -->
+            <div class="output-loading" id="output-loading">
+              <div class="spinner"></div>
+              <div class="loading-text">Crafting your email<span class="loading-dots"></span></div>
+            </div>
+
+            <!-- Result -->
+            <div class="output-result" id="output-result">
+
+              <div class="output-actions-top">
+                <span class="output-meta">Generated email</span>
+                <span class="word-count-badge" id="word-count-badge">— words</span>
+              </div>
+
+              <!-- Editable Email Composer -->
+              <div class="email-composer" style="display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+                <div class="form-group full-width">
+                  <label for="composer-to">To:</label>
+                  <input type="email" id="composer-to" placeholder="e.g. manager@company.com" />
+                </div>
+                
+                <div class="form-group full-width">
+                  <label for="composer-subject-select">Subject Options:</label>
+                  <select id="composer-subject-select" style="background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:9px 12px; font-size:13.5px; color:var(--text); width:100%; outline:none; font-family:inherit; cursor:pointer;">
+                  </select>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="composer-subject">Subject:</label>
+                  <input type="text" id="composer-subject" />
+                </div>
+                
+                <div class="form-group full-width">
+                  <label for="composer-body">Message:</label>
+                  <textarea id="composer-body" rows="10" style="width:100%; resize:vertical; padding:12px; border:1px solid var(--border); border-radius:8px; background:var(--surface-2); color:var(--text); font-family:inherit; font-size:13.5px; line-height:1.65;"></textarea>
+                </div>
+              </div>
+
+              <!-- Actions row -->
+              <div style="display:flex; gap:8px; margin-top: 12px;">
+                <button class="btn-generate" id="btn-send-email" style="flex:2; margin-top:0;">
+                  <span class="btn-generate-icon">✉</span> Send via Email Client
+                </button>
+                <button class="btn-sm" id="btn-copy-all" style="flex:1; justify-content:center;" aria-label="Copy everything">
+                  <span>⧉</span> Copy
+                </button>
+                <button class="btn-regenerate" id="btn-regenerate" style="flex:1;" aria-label="Regenerate email">
+                  ↺ Regenerate
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════
+         PAGE: History
+    ═══════════════════════════════════════ -->
+    <main class="page" id="page-history" role="main" aria-label="Email History">
+
+      <div class="history-toolbar">
+        <div>
+          <div class="page-header-title" style="font-size:20px;font-weight:700;">History</div>
+          <div class="page-header-sub">All previously generated emails. Click to view details.</div>
+        </div>
+        <button class="btn-danger-sm" id="btn-clear-history" aria-label="Clear all history">
+          🗑 Clear All
+        </button>
+      </div>
+
+      <div id="history-empty" class="history-empty">
+        <div class="history-empty-icon">◷</div>
+        <div class="history-empty-text">No emails yet. Generate your first one!</div>
+      </div>
+
+      <div class="history-grid" id="history-grid" aria-label="Email history list"></div>
+
+    </main>
+
+  </div><!-- /main -->
+</div><!-- /app-shell -->
+
+<!-- ── Mobile Tab Bar ── -->
+<nav class="mobile-tab-bar" aria-label="Mobile navigation">
+  <div class="tab-items">
+    <button class="tab-item active" data-page="dashboard" id="tab-dashboard">
+      <span class="tab-item-icon">⊞</span>
+      Dashboard
+    </button>
+    <button class="tab-item" data-page="generator" id="tab-generator">
+      <span class="tab-item-icon">✦</span>
+      Generate
+    </button>
+    <button class="tab-item" data-page="history" id="tab-history">
+      <span class="tab-item-icon">◷</span>
+      History
+    </button>
+  </div>
+</nav>
+
+<!-- ── History Detail Modal ── -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Email Details</div>
+      <button class="btn-close" id="modal-close" aria-label="Close modal">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer">
+      <button class="btn-sm" id="modal-copy-all" style="flex:1; justify-content:center;">⧉ Copy All</button>
+      <button class="btn-regenerate" id="modal-reuse" style="flex:1;">↩ Load into Form</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
